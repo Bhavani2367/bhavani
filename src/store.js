@@ -1,20 +1,63 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getProducts } from './service/App';
+import { thunk } from 'redux-thunk';
+
+
+
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async () => {
+    const response = await getProducts();  // Fetch products from API
+
+    // Filter the items based on category
+    const veg = response.filter(item => item.category === 'veg');
+    const nonVeg = response.filter(item => item.category === 'nonVeg');
+    console.log('API xxx veg items:', veg);
+
+    // Return the filtered items
+    return { veg, nonVeg };
+  }
+);
 const productsSlice = createSlice({
   name: 'products',
   initialState: {
-    veg: [
-      { id: 1, name: 'tomato', price: 200.5 },
-      { id: 2, name: 'potato', price: 100 },
-      { id: 3, name: 'Gobi Manchurian', price: 150 },
-    ],
-    nonVeg: [
-      { id: 4, name: 'chicken', price: 400 },
-      { id: 5, name: 'fish', price: 300 },
-      { id: 6, name: 'mutton', price: 500 },
-    ],
+    veg: [],
+    nonVeg: [],
+    status: ''
   },
   reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProducts.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.veg = action.payload.veg || [];
+        state.nonVeg = action.payload.nonVeg || [];
+        console.log('Updated state with veg:', state.veg);
+        console.log('Updated state with nonVeg:', state.nonVeg);
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
+  },
 });
+
+
+
+const purchaseHistorySlice = createSlice({
+  name: 'purchaseHistory', // Corrected the typo here
+  initialState: [],
+  reducers: {
+    addPurchase: (state, action) => {
+      state.push(action.payload); // Add a new purchase to the history
+    },
+  },
+});
+
+// Cart Slice
 const cartSlice = createSlice({
   name: 'cart',
   initialState: [],
@@ -48,15 +91,29 @@ const cartSlice = createSlice({
       const index = state.findIndex(item => item.id === action.payload.id);
       if (index !== -1) state.splice(index, 1);
     },
+    clearCart: () => {
+      return []; // Clear the cart
+    },
   },
 });
 
+
+// Export Actions
+export const { addtocart, increment, decrement, removeCart, clearCart } = cartSlice.actions;
+export const { addPurchase } = purchaseHistorySlice.actions;
+// Configure Store
 const store = configureStore({
   reducer: {
     products: productsSlice.reducer,
     cart: cartSlice.reducer,
-  },
-});
-export const { addtocart, increment, decrement, removeCart } = cartSlice.actions;
+    purchaseHistory: purchaseHistorySlice.reducer
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk)
 
+    
+  
+});
+
+
+// Export Store
 export default store;

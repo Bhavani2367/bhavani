@@ -1,3 +1,4 @@
+/* Root Container */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -5,6 +6,7 @@
   text-align: center;
 }
 
+/* Logo Styling */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -18,6 +20,7 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* Logo Spin Animation */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -33,68 +36,91 @@
   }
 }
 
+/* Card Component */
 .card {
   padding: 2em;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 1rem auto;
 }
 
+/* Read the Docs Link */
 .read-the-docs {
-  color: #888;
+  color: rgb(157, 0, 255);
+  text-decoration: none;
+  font-weight: bold;
+}
+.read-the-docs:hover {
+  text-decoration: underline;
 }
 
-/* General link styles */
-a {
-  text-decoration: none; /* Remove underline */
-  padding: 12px 25px; /* Space inside the links */
-  margin: 0 10px; /* Space between links */
-  color: #ffffff; /* White text color */
-  background-color: #007BFF; /* Button blue background */
-  border-radius: 25px; /* Rounded edges for buttons */
-  font-family: 'Helvetica Neue', sans-serif; /* Modern font */
-  font-size: 16px; /* Font size */
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover transition */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+/* Global Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(27, 1, 1);
+  color: #fff;
 }
 
-a:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  transform: translateY(-2px); /* Slight lift effect on hover */
-}
-
-a:active {
-  background-color: #003f7f; /* Even darker blue when clicked */
-  transform: translateY(0); /* Remove lift on click */
-}
-
-a:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus shadow for accessibility */
-}
-
-/* Styles specifically for navigation bar */
+/* Navigation Bar */
 nav {
-  display: flex; /* Aligns items horizontally */
-  justify-content: center; /* Center items */
-  background-color: #282c34; /* Dark background for the nav */
-  padding: 20px 0; /* Padding around the navigation bar */
+  background-color: lightgreen;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-a:first-child {
-  margin-left: 0; /* Removes extra margin for first link */
+nav a {
+  color: blue;
+  text-decoration: none;
+  margin: 0 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
-a:last-child {
-  margin-right: 0; /* Removes extra margin for last link */
+nav a:hover {
+  text-decoration: underline;
 }
 
-/* Responsive adjustments */
+/* Headings */
+h1 {
+  text-align: center;
+  color: #fff;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Container */
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+/* Media Query for Mobile */
 @media (max-width: 768px) {
-  nav {
-    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+  #root {
+    padding: 1rem;
   }
 
-  a {
-    margin: 10px 5px; /* Reduces margin for smaller screens */
-    padding: 10px 20px; /* Adjusts padding for smaller screens */
+  .logo {
+    height: 4em;
+  }
+
+  nav a {
+    font-size: 1rem;
+  }
+
+  .container {
+    padding: 15px;
   }
 }
+
 

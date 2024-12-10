@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { decrement, increment, removeCart, } from './store';
+import { addPurchase,  clearCart,  decrement, increment, removeCart, } from './store';
 
 
 function Cart() {
@@ -68,7 +68,21 @@ function Cart() {
     </ul>
   ) : (
     <p>There are no items in the cart.</p>
-  );
+  ); 
+  
+  const handleCompletePurchase = () => {
+    const { discountedTotal } = calculateTotals();
+    const PurchaseDate = new Date().toLocaleDateString();
+  
+    const purchaseDetails = {
+      date: PurchaseDate,
+      items: [...cartItems],
+      totalAmount: Number(discountedTotal),  // Use discountedTotal here
+    };
+    dispatch(clearCart());
+    dispatch(addPurchase(purchaseDetails));
+  };
+
 
   return (
     <>
@@ -97,6 +111,8 @@ function Cart() {
       <p>Coupon Discount Percentage: {couponDiscountPercentage}%</p>
       <p>Discount Amount: ${savings}</p>
       <h4>Final Bill After Discount: ${discountedTotal}</h4>
+      <button onClick={handleCompletePurchase}>Complete Purchase</button>
+
     </>
   );
 
